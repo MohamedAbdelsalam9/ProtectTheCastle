@@ -24,9 +24,14 @@ int main()
 
 	x.print_heap();
 	
-	x.get_max()->calcPriority(x.get_max()->getPriority() - 2);
+	enem[20].calcPriority(enem[20].getPriority() - 2);
+	enem[23].calcPriority(enem[23].getPriority() + 10);
 	x.print_heap();
 	x.update_heap();
 
 	x.print_heap();
+
+	vector<enemy*> new_enems = x.get_n_enems(5);
+	for (int i = 0; i < 5; i++)
+		cout << (*new_enems[i]).getPriority() << '\t';
 }

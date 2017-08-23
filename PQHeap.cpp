@@ -139,6 +139,14 @@ enemy* PQHeap::delete_enem(enemy* enemyptr)
 	return enemyptr;
 }
 
+vector<enemy*> PQHeap::get_n_enems(int n)
+{
+	auto first = heapArray.begin() + 1;
+	auto last = first + n;
+	vector<enemy*> n_enems(first, last);
+	return n_enems;
+}
+
 void PQHeap::update_heap() //resort the heap
 {
 	vector<enemy*> tempHeapArray = heapArray;
