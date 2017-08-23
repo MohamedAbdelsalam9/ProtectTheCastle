@@ -23,7 +23,7 @@ void PQHeap::insert_enemy (enemy* enemyptr)
     else {
         heapArray.push_back(enemyptr);
 		for (int i = heap_count(); i > 1; i /= 2) {
-			if (heapArray[i]->priority > heapArray[i/2]->priority)
+			if (heapArray[i]->getPriority() > heapArray[i/2]->getPriority())
 				swap_elements(i, i / 2);
 			else
 				return;
@@ -33,7 +33,7 @@ void PQHeap::insert_enemy (enemy* enemyptr)
 
 bool PQHeap::empty_heap()
 {
-    if (heapArray.size() == 1) //as the 0th element is just a null pointer
+    if (heap_count() <= 0) //as the 0th element is just a null pointer
         return true;
     else
         return false;
@@ -53,14 +53,16 @@ void PQHeap::swap_elements(int ind1, int ind2)
 
 void PQHeap::print_heap()
 {
+	if (empty_heap()) return;
+
 	int max = heap_count();
 	int levels = (int)log2(max);
 	for (int i = 0; i <= levels; i++) {
 		for (int j = (int)pow(2, i); j < pow(2, i + 1) && j <= max; j++) {
 			if (j == 1)
-				cout << heapArray[j]->priority << '\t';
+				cout << heapArray[j]->getPriority() << '\t';
 			else
-				cout << heapArray[j]->priority << '(' << heapArray[j/2]->priority << ')' << "     ";
+				cout << heapArray[j]->getPriority() << '(' << heapArray[j/2]->getPriority() << ')' << "     ";
 		}
 		cout << endl;
 	}
@@ -80,8 +82,8 @@ enemy* PQHeap::delete_max()
 
 	int i;
 	for (i = 1; (i * 2) + 1 <= heap_count();) { //applies only if the node has two children
-		if (heapArray[i]->priority < heapArray[i * 2]->priority || heapArray[i]->priority < heapArray[(i * 2) + 1]->priority) {
-			if (heapArray[i * 2]->priority > heapArray[(i * 2) + 1]->priority) {
+		if (heapArray[i]->getPriority() < heapArray[i * 2]->getPriority() || heapArray[i]->getPriority() < heapArray[(i * 2) + 1]->getPriority()) {
+			if (heapArray[i * 2]->getPriority() > heapArray[(i * 2) + 1]->getPriority()) {
 				swap_elements(i, i * 2);
 				i = i * 2;
 			}
@@ -94,7 +96,7 @@ enemy* PQHeap::delete_max()
 			return temp;
 	}
 	if ((i * 2) == heap_count()) { //corner case if the next to last node has one child and not two
-		if (heapArray[i]->priority < heapArray[i * 2]->priority)
+		if (heapArray[i]->getPriority() < heapArray[i * 2]->getPriority())
 			swap_elements(i, i * 2);
 	}
 
@@ -117,8 +119,8 @@ enemy* PQHeap::delete_enem(enemy* enemyptr)
 
 	int i;
 	for (i = ind; (i * 2) + 1 <= heap_count();) { //applies only if the node has two children
-		if (heapArray[i]->priority < heapArray[i * 2]->priority || heapArray[i]->priority < heapArray[(i * 2) + 1]->priority) {
-			if (heapArray[i * 2]->priority > heapArray[(i * 2) + 1]->priority) {
+		if (heapArray[i]->getPriority() < heapArray[i * 2]->getPriority() || heapArray[i]->getPriority() < heapArray[(i * 2) + 1]->getPriority()) {
+			if (heapArray[i * 2]->getPriority() > heapArray[(i * 2) + 1]->getPriority()) {
 				swap_elements(i, i * 2);
 				i = i * 2;
 			}
@@ -131,8 +133,22 @@ enemy* PQHeap::delete_enem(enemy* enemyptr)
 			return enemyptr;
 	}
 	if ((i * 2) == heap_count()) { //corner case if the next to last node has one child and not two
-		if (heapArray[i]->priority < heapArray[i * 2]->priority)
+		if (heapArray[i]->getPriority() < heapArray[i * 2]->getPriority())
 			swap_elements(i, i * 2);
 	}
 	return enemyptr;
+}
+
+void PQHeap::update_heap() //resort the heap
+{
+	vector<enemy*> tempHeapArray = heapArray;
+	int count = heap_count();
+	clear_heap(); //clears the heapArray
+	for (int i = 1; i <= count; i++)
+		insert_enemy(tempHeapArray[i]);
+}
+
+void PQHeap::clear_heap()
+{
+	heapArray.erase(heapArray.begin()+1, heapArray.end());
 }
