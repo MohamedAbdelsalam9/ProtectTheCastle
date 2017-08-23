@@ -5,7 +5,7 @@
 class enemy
 {
     public:
-        enemy();
+        enemy(int c);
         virtual ~enemy();
 
         int getSequence();
@@ -14,8 +14,8 @@ class enemy
         int getTime();
         void setTime(int t);
 
-        int getHealth();
-        void setHealth(int h);
+        float getHealth();
+        void setHealth(float h);
 
         int getPower();
         void setPower(int p);
@@ -23,8 +23,8 @@ class enemy
         int getPeriod();
         void setPeriod(int pr);
 
-        char getType();
-        void setType(char ty);
+        int getType();
+        void setType(int ty);
 
         char getRegion();
         void setRegion(char R);
@@ -35,15 +35,17 @@ class enemy
         float getPriority();
         void calcPriority();
 
-        void setPriorityParams(int c1,int c2,int c3);
+        void setPriorityParams(float c1,float c2,float c3);
 
-        void updateVars(); // to update distance and priority according to time steps
+        void updateVars();
+
+        bool isActive(); // to update distance and priority according to time steps
 
 
     protected:
 
     private:
-        int c1,c2,c3; // priority prarameters
+        float c1,c2,c3; // priority prarameters
         int s; // sequence
         int t; // time
         int h; //health
@@ -52,6 +54,7 @@ class enemy
         char ty,R; // type and region
         int D=60; //distance
         float priority;
+        int clock;
 
 
 };
