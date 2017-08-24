@@ -6,6 +6,7 @@
 #include "enemy.h"
 #include "tower.h"
 #include "main_functions.h"
+#include "utility.h"
 
 const int number_of_towers = 4;
 int clock = -1;
@@ -15,6 +16,15 @@ using namespace std;
 
 int main()
 {
+	//Setting GUI (from base code)
+	SetWindow();
+	castle ct; // define castle 
+	ct.Xstrt = CastleXStrt;
+	ct.Ystrt = CastleYStrt;
+	ct.W = CastleWidth;
+	ct.L = CastleLength;
+
+
 	float c1, c2, c3; //parameters
 	vector<tower> towers;
 	towers.reserve(number_of_towers);
@@ -84,6 +94,8 @@ int main()
 		infile.close();
 	}
 
+	DrawCastle(ct, 12, towers);
+	DrawEnemies(enemies);
 
 	//start main game loop
 	int number_of_enemies = enemies.size();
@@ -148,6 +160,8 @@ int main()
 			}
 			
 			current_heap.update_heap();
+			DrawCastle(ct, 12, towers);
+			DrawEnemies(enemies);
 		}
 	}
 
