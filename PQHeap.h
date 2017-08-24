@@ -17,9 +17,9 @@ class PQHeap
 		enemy* get_max();
 		enemy* delete_max(); //returns the enemy pointer with max priority after removing it from the heap array (it doesn't delete the enemy from memory)
 		enemy* delete_enem(enemy* enemyptr); //returns the specified enemy pointer after removing it from the heap array (it doesn't delete the enemy from memory)
-
-
-    protected:
+		vector<enemy*> get_n_enems(int n); //get the address(pointers) of the highest priority n enemies
+		void update_heap(); //re-sort the heap if the node priorities changed
+		void clear_heap(); //erase all the elements from the heap
 
     private:		
         vector<enemy*> heapArray; //store in the heap array the pointers to enemies

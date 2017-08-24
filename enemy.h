@@ -38,6 +38,7 @@ class enemy
 
         void setPriorityParams(float c1,float c2,float c3);
 
+        // to update distance and priority according to time steps
         void updateVars();
 
         bool isActive();
@@ -45,11 +46,7 @@ class enemy
         float shootTower();
 
         bool isKilled();
-
-        // to update distance and priority according to time steps
-
-
-    protected:
+  
 
     private:
         float c1,c2,c3; // priority prarameters
@@ -64,8 +61,6 @@ class enemy
         float priority;
         int clock;
         int speed;
-
-
 };
 
 #endif // ENEMY_H
