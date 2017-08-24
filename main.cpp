@@ -124,6 +124,7 @@ int main()
 			}
 
 			int no_defensive_enemies = current_tower.getMaxNumberEnemies();
+			if (no_defensive_enemies > current_heap.heap_count()) no_defensive_enemies = current_heap.heap_count();
 			auto defensive_enemies = current_heap.get_n_enems(no_defensive_enemies);
 			for (int j = 0; j < no_defensive_enemies; j++) {
 				auto &current_enemy = defensive_enemies[j];
@@ -140,4 +141,17 @@ int main()
 		}
 	}
 
+	ofstream Outfile("Output_Sample.txt");
+	if (Outfile.is_open())
+	{
+		for (int i = 0; i < enemies.size(); i++) {
+			auto enemy = enemies[i];
+			Outfile << enemy.FT + enemy.getArrivalTime() << ' ' << enemy.getSequence() << ' ' << enemy.FD << ' ' << enemy.KD << ' ' << enemy.FT << '\n';
+		}
+		Outfile << towers[1].getHealth() << ' ' << towers[2].getHealth() << ' ' << towers[3].getHealth() << ' ' << towers[4].getHealth() << '\n';
+		Outfile << unpaved_distance[1] << ' ' << unpaved_distance[2] << ' ' << unpaved_distance[3] << ' ' << unpaved_distance[4] << '\n';
+		Outfile.close();
+	}
+	else cout << "Unable to open file";
+	return 0;
 }
