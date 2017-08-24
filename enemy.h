@@ -5,7 +5,7 @@
 class enemy
 {
     public:
-        enemy(int c);
+        enemy(int c=0);
         virtual ~enemy();
 
         int getSequence();
