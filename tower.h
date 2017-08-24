@@ -36,15 +36,13 @@ public:
 	}
 
 	//set the tower as destroyed
-	void set_destroyed() { if (TH <= 0) destroyed = 1; }
-	bool is_destroyed() { if (destroyed == 1) return true; }
+	bool is_destroyed() { if (TH <= 0) return true; }
 
 private:
 	float TH; //Tower Health
 	int NE; //Number of enemies tower can shoot
 	int TP; //Tower Power
 	char R; //Region
-	int destroyed = 0; //is the towe
 };
 
 #endif // TOWER_H
