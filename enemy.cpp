@@ -1,8 +1,10 @@
 #include "enemy.h"
 
+
 enemy::enemy(int c=0)
 {
-    clock=c;//ctor
+    clock=c;
+    //ctor
 }
 
 enemy::~enemy()
@@ -62,6 +64,9 @@ int enemy::getType()
 void enemy::setType(int ty)
 {
     this.ty=ty;
+    if(ty==1) speed=1;
+    else if(ty==2) speed=2;
+    else speed =1;
 }
 
 char enemy::getRegion()
@@ -98,8 +103,11 @@ void enemy::setPriorityParams(float c1,float c2,float c3)
     this.c3=c3;
 }
 
-void enemy::updateVars()
+void enemy::updateVars(int c)
 {
+    clock=c;
+    D=D-(clock-t)*speed;
+    calcPriority();
 
 }
 
