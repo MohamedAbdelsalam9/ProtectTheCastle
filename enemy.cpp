@@ -83,7 +83,7 @@ void enemy::setType(int type)
 	ty = type;
 	if (ty == 2) speed = 2; //fighter
 	else if (ty == 3) speed = 1; //shielded fighter
-	else if (ty == 1) speed = p; //paver, speed is his fire power
+	else if (ty == 1) speed = 2; //paver
 }
 
 char enemy::getRegion()
@@ -126,9 +126,9 @@ void enemy::setPriorityParams(float c_1,float c_2,float c_3)
 // to update distance according to time steps, unpaved is the unpaved distance
 void enemy::updateDist(int new_clock, int* unpaved)
 {
-	if (isPaver()) {
+	if (isPaver() && D <= *unpaved) {
 		if ((new_clock - AT) % pr) { //if he is not in his delay time
-			D = D - (new_clock - clock) * speed;
+			D = D - (new_clock - clock) * p; //the paver speed in unpaved area is his fire power
 			if (D < *unpaved) *unpaved = D; //if the distance walked by the paver is less than the paved distance, make that distance paved
 		}
 	}
@@ -163,5 +163,5 @@ bool enemy:: isKilled()
 
 bool enemy::isPaver()
 {
-	assadasd;
+	if (ty == 1) return true;
 }
