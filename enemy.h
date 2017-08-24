@@ -38,8 +38,8 @@ class enemy
 
         void setPriorityParams(float c1,float c2,float c3);
 
-        // to update distance and priority according to time steps
-        void updateVars();
+        // to update distance and priority according to time steps, c is the external clock
+        void updateVars(int c);
 
         bool isActive();
 
@@ -52,7 +52,7 @@ class enemy
         float c1,c2,c3; // priority prarameters
         int s; // sequence
         int t; // time
-        int h; //health
+        float h; //health
         int p; //power
         int pr; //hit period
         int ty; // type
@@ -62,5 +62,4 @@ class enemy
         int clock;
         int speed;
 };
-
 #endif // ENEMY_H
