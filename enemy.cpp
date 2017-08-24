@@ -81,9 +81,9 @@ int enemy::getType()
 void enemy::setType(int type)
 {
 	ty = type;
-	if (ty == 1) speed = 1;
-	else if (ty == 2) speed = 2;
-	else speed = 1;
+	if (ty == 2) speed = 2; //fighter
+	else if (ty == 3) speed = 1; //shielded fighter
+	else if (ty == 1) speed = p; //paver, speed is his fire power
 }
 
 char enemy::getRegion()
@@ -123,29 +123,34 @@ void enemy::setPriorityParams(float c_1,float c_2,float c_3)
 	c3 = c_3;
 }
 
-// to update distance and priority according to time steps, unpaved is the unpaved distance
-void enemy::updateVars(int new_clock, int unpaved)
+// to update distance according to time steps, unpaved is the unpaved distance
+void enemy::updateDist(int new_clock, int* unpaved)
 {
-	clock = c;
-
-	D = D - speed;
-	if (D < unpaved) D = unpaved;
-	else if (D < 2) D = 2;
-
-	calcPriority();
+	if (isPaver()) {
+		if ((new_clock - AT) % pr) { //if he is not in his delay time
+			D = D - (new_clock - clock) * speed;
+			if (D < *unpaved) *unpaved = D; //if the distance walked by the paver is less than the paved distance, make that distance paved
+		}
+	}
+	else {
+		D = D - (new_clock - clock) * speed;
+		if (D < *unpaved) D = *unpaved;
+		else if (D < 2) D = 2;
+	}
+	clock = new_clock;
 }
 
 bool enemy::isActive()
 {
-	if ((t - clock) >= 0 && !isKilled()) return true;
+	if ((clock - AT) >= 0 && !isKilled()) return true;
     else return false;
 }
 
-float enemy:: shootTower()
+float enemy:: towerDamage()
 {   
 	float dam;
-	if (isActive())
-		dam = p / D;
+	if (isActive() && !isPaver()) //if is paver, no damage is inflicted on the tower
+		dam = (float)p / D;
 	else dam = 0;
 	return dam;
 }
@@ -154,4 +159,9 @@ bool enemy:: isKilled()
 {
 	if (h <= 0) return true;
     else return false;
+}
+
+bool enemy::isPaver()
+{
+	assadasd;
 }

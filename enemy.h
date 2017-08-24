@@ -38,12 +38,12 @@ class enemy
 
         void setPriorityParams(float c1,float c2,float c3);
 
-        // to update distance and priority according to time steps, unpaved is the unpaved distance
-        void updateVars(int new_clock, int unpaved); 
+        // to update distance according to time steps, unpaved is the unpaved distance
+        void updateDist(int new_clock, int* unpaved); 
 
         bool isActive();
 
-        float shootTower();
+        float towerDamage();
 
         bool isKilled();
 
