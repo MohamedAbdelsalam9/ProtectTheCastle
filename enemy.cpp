@@ -1,5 +1,7 @@
 #include "enemy.h"
+#include <iostream>
 
+using namespace std;
 
 enemy::enemy(int c)
 {
@@ -184,6 +186,7 @@ void enemy::set_first_shot() {
 	if (!firstShot) {
 		firstShot = true;
 		FD = clock - AT;
+		//cout << clock << '\n';
 	}
 }
 

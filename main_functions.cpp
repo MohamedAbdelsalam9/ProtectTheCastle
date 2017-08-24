@@ -5,6 +5,8 @@
 #include "tower.h"
 #include "main_functions.h"
 
+using namespace std;
+
 int win_or_lose(vector<tower> &towers, vector<enemy*> &enemies, int number_of_towers, int number_of_enemies) {
 	int towers_destroyed = 0;
 	int dead_enemies = 0;

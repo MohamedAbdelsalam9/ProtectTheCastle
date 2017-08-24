@@ -30,10 +30,10 @@ int main()
 		while (getline(infile,line)) {
 			if (d == 1) { //get tower data
 				float tower_health = stof(line.substr(0, line.find(' ')));
-				line.erase(0, line.find(' ')); line.erase(0, 1);
+				line.erase(0, line.find(' ')+1);
 				int tower_power, max_enemies;
 				max_enemies = stoi(line.substr(0, line.find(' ')));
-				line.erase(0, line.find(' ')); line.erase(0, 1);
+				line.erase(0, line.find(' ') + 1);
 				tower_power = stoi(line);
 				d++;
 				char Region = 'A';
@@ -47,28 +47,29 @@ int main()
 			}
 			else if (d == 2) { //get parameters
 				c1 = stof(line.substr(0, line.find(' ')));
-				line.erase(0, line.find(' ')); line.erase(0, 1);
+				line.erase(0, line.find(' ') + 1);
 				c2 = stof(line.substr(0, line.find(' ')));
-				line.erase(0, line.find(' ')); line.erase(0, 1);
+				line.erase(0, line.find(' ') + 1);
 				c3 = stof(line);	
 				d++;
 			}
 			else if (line.compare("-1") != 0) { //get enemies
 				int seq = stoi(line.substr(0, line.find(' ')));
-				line.erase(0, line.find(' ')); line.erase(0, 1);
+				line.erase(0, line.find(' ') + 1);
 				int arrival_time = stoi(line.substr(0, line.find(' ')));
-				line.erase(0, line.find(' ')); line.erase(0, 1);
+				line.erase(0, line.find(' ') + 1);
 				float health = stof(line.substr(0, line.find(' ')));
-				line.erase(0, line.find(' ')); line.erase(0, 1);
+				line.erase(0, line.find(' ') + 1);
 				int power = stoi(line.substr(0, line.find(' ')));
-				line.erase(0, line.find(' ')); line.erase(0, 1);
+				line.erase(0, line.find(' ') + 1);
 				int delay_period = stoi(line.substr(0, line.find(' ')));
-				line.erase(0, line.find(' ')); line.erase(0, 1);
+				line.erase(0, line.find(' ') + 1);
 				int type = stoi(line.substr(0, line.find(' ')));
-				line.erase(0, line.find(' ')); line.erase(0, 1);
+				line.erase(0, line.find(' ') + 1);
 				char region = line[0];
-
+				
 				enemy* enem = new enemy(clock + 1, c1, c2, c3, seq, arrival_time, health, power, delay_period, type, region);
+				//cout << enem->getDistance() << endl;
 				enemies.push_back(enem);
 				//auto enem = *(enemies.end() - 1);
 				if (enem->wasInactive()) { //if was inactive and became active
@@ -87,9 +88,8 @@ int main()
 	//start main game loop
 	int number_of_enemies = enemies.size();
 	while (win_or_lose(towers, enemies, number_of_towers, number_of_enemies) == 0){
-		//cout << "hi" << endl;
 		clock++;
-
+		
 		//insert the newly active enemies in the heaps
 		int num = inactive_enemies.size();
 		for (int i = 0; i < num; i++){ 
@@ -103,7 +103,7 @@ int main()
 
 		num = enemies.size();
 		for (int i = 0; i < num; i++) {
-			//cout << enemies[i]->isKilled() << '\n';
+			//cout << enemies[i]->getHealth() << '\n';
 		}
 
 		//check destroyed towers, if so, change tower and update distances

@@ -1,5 +1,6 @@
 #ifndef TOWER_H
 #define TOWER_H
+#include <iostream>
 
 using namespace std;
 
