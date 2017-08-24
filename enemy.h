@@ -6,7 +6,7 @@ class enemy
 {
     public:
         enemy(int c);
-        enemy(int c,float c_1,float c_2,float c_3,int seq, int time,int health,int power, int period,int type,char Region);
+        enemy(int c,float c_1,float c_2,float c_3,int seq, int time,float health,int power, int period,int type,char Region);
         virtual ~enemy();
 
         int getSequence();

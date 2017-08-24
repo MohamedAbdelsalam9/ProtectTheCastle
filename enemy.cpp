@@ -1,13 +1,13 @@
 #include "enemy.h"
 
 
-enemy::enemy(int c)
+enemy::enemy(int c=0)
 {
     clock=c;
     //ctor
 }
 
-enemy::enemy(int c,float c_1,float c_2,float c_3,int seq, int time,int health,int power, int period,int type,char Region)
+enemy::enemy(int c,float c_1,float c_2,float c_3,int seq, int time,float health,int power, int period,int type,char Region)
 {
 	clock = c;
 	c1 = c_1;
