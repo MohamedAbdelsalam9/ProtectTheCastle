@@ -8,11 +8,12 @@
 int win_or_lose(vector<tower> &towers, vector<PQHeap> &priority_heaps, int number_of_towers) {
 	int towers_destroyed = 0;
 	int regions_without_enemies = 0;
-	for (int i = 1; i < number_of_towers; i++) {
+	for (int i = 0; i < number_of_towers; i++) {
 		if (towers[i].is_destroyed())
 			towers_destroyed++;
 		if (priority_heaps[i].heap_count() <= 0)
 			regions_without_enemies++;
+		//cout << priority_heaps[i].heap_count() << '\n';
 	}
 	if (towers_destroyed == number_of_towers)
 		return -1; //lose

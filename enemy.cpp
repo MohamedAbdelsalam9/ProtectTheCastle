@@ -129,12 +129,12 @@ void enemy::updateDist(int new_clock, int* unpaved)
 {
 	if (isPaver() && D <= *unpaved) {
 		if ((new_clock - AT) % pr) { //if he is not in his delay time
-			D = D - (new_clock - clock) * p; //the paver speed in unpaved area is his fire power
+			D = D -  p; //the paver speed in unpaved area is his fire power
 			if (D < *unpaved) *unpaved = D; //if the distance walked by the paver is less than the paved distance, make that distance paved
 		}
 	}
 	else {
-		D = D - (new_clock - clock) * speed;
+		D = D - speed;
 		if (D < *unpaved) D = *unpaved;
 		else if (D < 2) D = 2;
 	}
@@ -168,6 +168,7 @@ bool enemy:: isKilled()
 bool enemy::isPaver()
 {
 	if (ty == 1) return true;
+	else return false;
 }
 
 bool enemy::wasInactive()
@@ -189,4 +190,8 @@ void enemy::set_first_shot() {
 void enemy::set_fight_time() {
 	FT = clock - AT;
 	KD = FT - FD;
+}
+
+void enemy::update_clock(int new_clock) {
+	clock = new_clock;
 }

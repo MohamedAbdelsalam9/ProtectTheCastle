@@ -54,6 +54,8 @@ class enemy
 		void set_first_shot();
 
 		void set_fight_time();
+
+		void update_clock(int new_clock);
 	
 		int FD;
 		int KD;
@@ -72,7 +74,7 @@ class enemy
         float priority;
         int clock;
         int speed;
-		int active;
+		int active = 0;
 		bool firstShot = false;
 };
 #endif // ENEMY_H

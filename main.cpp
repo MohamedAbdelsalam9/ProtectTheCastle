@@ -15,13 +15,13 @@ using namespace std;
 
 int main()
 {
-	float c1 = 1, c2 = 1, c3 = 1; //parameters
+	float c1, c2, c3; //parameters
 	vector<tower> towers;
 	towers.reserve(number_of_towers);
 	vector<PQHeap> priority_heaps;
 	priority_heaps.reserve(number_of_towers); //a heap for each tower
-	vector<enemy> enemies;
-	vector<enemy> inactive_enemies;
+	vector<enemy*> enemies;
+	vector<enemy*> inactive_enemies;
 	
 	string line;
 	ifstream infile("Input_Sample.txt");	
@@ -53,7 +53,7 @@ int main()
 				c3 = stof(line);	
 				d++;
 			}
-			else if (line.compare("-1") != 0) { //get parameters
+			else if (line.compare("-1") != 0) { //get enemies
 				int seq = stoi(line.substr(0, line.find(' ')));
 				line.erase(0, line.find(' ')); line.erase(0, 1);
 				int arrival_time = stoi(line.substr(0, line.find(' ')));
@@ -68,11 +68,12 @@ int main()
 				line.erase(0, line.find(' ')); line.erase(0, 1);
 				char region = line[0];
 
-				enemies.push_back(enemy(clock + 1, c1, c2, c3, seq, arrival_time, health, power, delay_period, type, region));
-				auto enem = *(enemies.end() - 1);
-				if (enem.wasInactive()) { //if was inactive and became active
-					enem.calcPriority();
-					priority_heaps[(int)(enem.getRegion() - 'A')].insert_enemy(&enem); //insert the active enemy in his heap depending on his region
+				enemy* enem = new enemy(clock + 1, c1, c2, c3, seq, arrival_time, health, power, delay_period, type, region);
+				enemies.push_back(enem);
+				//auto enem = *(enemies.end() - 1);
+				if (enem->wasInactive()) { //if was inactive and became active
+					enem->calcPriority();
+					priority_heaps[(enem->getRegion() - 'A')].insert_enemy(enem); //insert the active enemy in his heap depending on his region
 				}
 				else {
 					inactive_enemies.push_back(enem);
@@ -85,16 +86,22 @@ int main()
 
 	//start main game loop
 	while (win_or_lose(towers, priority_heaps, number_of_towers) == 0) {
-
 		clock++;
 
 		//insert the newly active enemies in the heaps
 		int num = inactive_enemies.size();
 		for (int i = 0; i < num; i++){ 
-			if (inactive_enemies[i].wasInactive()) {
-				inactive_enemies[i].calcPriority();
-				priority_heaps[(int)(inactive_enemies[i].getRegion() - 'A')].insert_enemy(&inactive_enemies[i]);
+			if (inactive_enemies[i]->wasInactive()) {
+				inactive_enemies[i]->calcPriority();
+				priority_heaps[(inactive_enemies[i]->getRegion() - 'A')].insert_enemy(inactive_enemies[i]);
 			}
+			inactive_enemies[i]->update_clock(clock);
+		}
+
+
+		num = enemies.size();
+		for (int i = 0; i < num; i++) {
+			//cout << enemies[i]->getHealth() << '\n';
 		}
 
 		//check destroyed towers, if so, change tower and update distances
@@ -129,6 +136,7 @@ int main()
 			for (int j = 0; j < no_defensive_enemies; j++) {
 				auto &current_enemy = defensive_enemies[j];
 				float enem_damage = current_tower.enemy_damage(current_enemy->getDistance(), current_enemy->getType());
+				//cout << current_enemy->getHealth() << '\n';
 				current_enemy->setHealth(current_enemy->getHealth() - enem_damage);
 				current_enemy->set_first_shot();
 				if (current_enemy->isKilled()) {
@@ -144,9 +152,10 @@ int main()
 	ofstream Outfile("Output_Sample.txt");
 	if (Outfile.is_open())
 	{
-		for (int i = 0; i < enemies.size(); i++) {
+		int num = enemies.size();
+		for (int i = 0; i < num; i++) {
 			auto enemy = enemies[i];
-			Outfile << enemy.FT + enemy.getArrivalTime() << ' ' << enemy.getSequence() << ' ' << enemy.FD << ' ' << enemy.KD << ' ' << enemy.FT << '\n';
+			Outfile << enemy->FT + enemy->getArrivalTime() << ' ' << enemy->getSequence() << ' ' << enemy->FD << ' ' << enemy->KD << ' ' << enemy->FT << '\n';
 		}
 		Outfile << towers[1].getHealth() << ' ' << towers[2].getHealth() << ' ' << towers[3].getHealth() << ' ' << towers[4].getHealth() << '\n';
 		Outfile << unpaved_distance[1] << ' ' << unpaved_distance[2] << ' ' << unpaved_distance[3] << ' ' << unpaved_distance[4] << '\n';
