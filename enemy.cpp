@@ -1,7 +1,7 @@
 #include "enemy.h"
 
 
-enemy::enemy(int c=0)
+enemy::enemy(int c)
 {
     clock=c;
     //ctor
