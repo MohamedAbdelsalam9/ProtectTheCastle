@@ -4,7 +4,6 @@
 enemy::enemy(int c)
 {
     clock=c;
-    //ctor
 }
 
 enemy::enemy(int c,float c_1,float c_2,float c_3,int seq, int arrival_time,float health,int power, int period,int type,char Region)
@@ -20,6 +19,8 @@ enemy::enemy(int c,float c_1,float c_2,float c_3,int seq, int arrival_time,float
 	pr = period;
 	setType(type);
 	R = Region;
+	priority = 0;
+	active = 0;
 }
 
 enemy::~enemy() {}
@@ -157,11 +158,23 @@ float enemy:: towerDamage()
 
 bool enemy:: isKilled()
 {
-	if (h <= 0) return true;
+	if (h <= 0) {
+		active = 0;
+		return true;
+	}
     else return false;
 }
 
 bool enemy::isPaver()
 {
 	if (ty == 1) return true;
+}
+
+bool enemy::wasInactive()
+{
+	if (isActive() && active == 0) {
+		active = 1;
+		return true;
+	}
+	else return false;
 }

@@ -29,7 +29,7 @@ public:
 	void setMaxNumberEnemies(int max_enemies) { NE = max_enemies; }
 
 	//return inflicted damage on the enemy, enem_type is 1 for paver, 2 for fighter, 3 for shielded fighter
-	float shoot_enemy(int distance, int enem_type) {
+	float enemy_damage(int distance, int enem_type) {
 		int k = 1;
 		if (enem_type == 3) k = 2; //enemy is shielded
 		return 1 / (float)distance * TP * 1 / (float)k;

@@ -43,6 +43,8 @@ class enemy
 
         bool isActive();
 
+		bool wasInactive(); //if was inactive and became active this timestep
+
         float towerDamage();
 
         bool isKilled();
@@ -59,9 +61,10 @@ class enemy
         int pr; //hit period
         int ty; // type
         char R; //  region
-        int D=60; //distance
+		int D = 60; //distance
         float priority;
         int clock;
         int speed;
+		int active;
 };
 #endif // ENEMY_H
