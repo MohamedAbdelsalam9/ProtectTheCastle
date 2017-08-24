@@ -6,6 +6,7 @@ class enemy
 {
     public:
         enemy(int c);
+        enemy(int c,float c_1,float c_2,float c_3,int seq, int time,int health,int power, int period,int type,char Region);
         virtual ~enemy();
 
         int getSequence();
@@ -37,12 +38,15 @@ class enemy
 
         void setPriorityParams(float c1,float c2,float c3);
 
+        // to update distance and priority according to time steps
         void updateVars();
 
-        bool isActive(); // to update distance and priority according to time steps
+        bool isActive();
 
+        float shootTower();
 
-    protected:
+        bool isKilled();
+  
 
     private:
         float c1,c2,c3; // priority prarameters
@@ -51,12 +55,12 @@ class enemy
         int h; //health
         int p; //power
         int pr; //hit period
-        char ty,R; // type and region
+        int ty; // type
+        char R; //  region
         int D=60; //distance
         float priority;
         int clock;
-
-
+        int speed;
 };
 
 #endif // ENEMY_H
