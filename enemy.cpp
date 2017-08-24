@@ -1,20 +1,20 @@
 #include "enemy.h"
 
 
-enemy::enemy(int c=0)
+enemy::enemy(int c)
 {
     clock=c;
     //ctor
 }
 
-enemy::enemy(int c,float c_1,float c_2,float c_3,int seq, int time,float health,int power, int period,int type,char Region)
+enemy::enemy(int c,float c_1,float c_2,float c_3,int seq, int arrival_time,float health,int power, int period,int type,char Region)
 {
 	clock = c;
 	c1 = c_1;
 	c2 = c_2;
 	c3 = c_3;
 	s = seq;
-	t = time;
+	AT = arrival_time;
 	h = health;
 	p = power;
 	pr = period;
@@ -34,14 +34,14 @@ void enemy::setSequence(int sequence)
     s= sequence;
 }
 
-int enemy::getTime()
+int enemy::getArrivalTime()
 {
-    return t;
+    return AT;
 }
 
-void enemy::setTime(int time)
+void enemy::setArrivalTime(int time)
 {
-	t = time;
+	AT = time;
 }
 
 float enemy::getHealth()
@@ -113,7 +113,7 @@ float enemy::getPriority()
 
 void enemy::calcPriority()
 {
-	priority = (p*c1 / (D*((pr - (clock - t) % pr) + 1))) + h*c2 + c3*ty;
+	priority = (p*c1 / (D*((pr - (clock - AT) % pr) + 1))) + h*c2 + c3*ty;
 }
 
 void enemy::setPriorityParams(float c_1,float c_2,float c_3)
@@ -123,14 +123,16 @@ void enemy::setPriorityParams(float c_1,float c_2,float c_3)
 	c3 = c_3;
 }
 
-// to update distance and priority according to time steps
-void enemy::updateVars(int c)
+// to update distance and priority according to time steps, unpaved is the unpaved distance
+void enemy::updateVars(int new_clock, int unpaved)
 {
 	clock = c;
-	D = D - (clock - t)*speed;
-	if (D < 2) D = 2;
-	calcPriority();
 
+	D = D - speed;
+	if (D < unpaved) D = unpaved;
+	else if (D < 2) D = 2;
+
+	calcPriority();
 }
 
 bool enemy::isActive()
