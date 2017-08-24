@@ -55,6 +55,7 @@ class enemy
         int D=60; //distance
         float priority;
         int clock;
+        int speed;
 
 
 };
