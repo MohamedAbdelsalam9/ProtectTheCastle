@@ -46,6 +46,8 @@ class enemy
         float shootTower();
 
         bool isKilled();
+
+		bool isPaver();
   
 
     private:
