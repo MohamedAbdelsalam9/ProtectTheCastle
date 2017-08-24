@@ -1,10 +1,25 @@
 #include "enemy.h"
 
 
-enemy::enemy(int c)
+enemy::enemy(int c=0)
 {
     clock=c;
     //ctor
+}
+
+enemy::(int c,float c_1,float c_2,float c_3,int seq, int time,int health,int power, int period,int type,char Region)
+{
+    clock=c;
+    c1=c_1;
+    c2=c_2;
+    c3=c_3;
+    s=seq;
+    t=time;
+    h=health;
+    p=power;
+    pr=period;
+    setType(type);
+    R=Region;
 }
 
 enemy::~enemy()
@@ -115,6 +130,21 @@ void enemy::updateVars(int c)
 bool enemy::isActive()
 {
     if((t-clock)>=0) return true;
+    else return false;
+}
+
+float enemy:: shootTower()
+{   float dam;
+    if (isActive)
+    {
+        dam= p/D;
+    } else dam=0;
+    return dam
+}
+
+bool enemy:: isKilled()
+{
+    if(h=<0) return true;
     else return false;
 }
 
