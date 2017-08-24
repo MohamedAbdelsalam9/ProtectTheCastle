@@ -6,7 +6,8 @@ using namespace std;
 class tower
 {
 public:
-	tower(char region, float tower_health, float tower_power, int max_enemies) {
+	tower() {};
+	tower(char region, float tower_health, int tower_power, int max_enemies) {
 		TH = tower_health;
 		NE = max_enemies;
 		TP = tower_power;
@@ -14,8 +15,8 @@ public:
 	}
 	virtual ~tower() {};
 
-	int getHealth() { return TH; }
-	void setHealth(float tower_health) { TH = health; }
+	float getHealth() { return TH; }
+	void setHealth(float tower_health) { TH = tower_health; }
 
 	int getPower() { return TP; }
 	void setPower(int tower_power) { TP = tower_power; }
