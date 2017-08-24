@@ -1,37 +1,65 @@
 #include <iostream>
 #include "PQHeap.h"
 #include "enemy.h"
+#include "tower.h"
+
+const int number_of_towers = 4;
+int clock = 0;
+vector<int> unpaved_distance(number_of_towers, 30); //30 is the initial unpaved distance
 
 using namespace std;
 
+int win_or_lose(vector<tower> &towers ,vector<PQHeap> &priority_heaps); //if it is win return 1, if it is lose, return -1, else, return 0
+
 int main()
 {
-    PQHeap x(10);
-
-	vector<enemy> enem(25);
-	for (int i = 1; i <= 22; i++) {
-		enem[i].calcPriority((float)i);
-		x.insert_enemy(&enem[i]);
+	//Read tower values from file
+	char Region = 'A';
+	float tower_health; ////
+	int tower_power, max_enemies; ////
+	vector<tower> towers;
+	towers.reserve(number_of_towers);
+	vector<PQHeap> priority_heaps;
+	priority_heaps.reserve(number_of_towers); //a heap for each tower
+	for (int i = 0; i < number_of_towers; i++) {
+		Region += i;
+		towers.push_back(tower(Region, tower_health, tower_power, max_enemies));
+		priority_heaps.push_back(PQHeap());
 	}
-	enem[23].calcPriority(0);
-	x.insert_enemy(&enem[23]);
 
-	x.print_heap();
-
-	cout << x.delete_max()->getPriority()<<endl<<endl;
-	cout << x.delete_enem(&enem[22])->getPriority() << endl << endl;
-	cout << x.delete_enem(x.get_max())->getPriority() << endl << endl;
-
-	x.print_heap();
 	
-	enem[20].calcPriority(enem[20].getPriority() - 2);
-	enem[23].calcPriority(enem[23].getPriority() + 10);
-	x.print_heap();
-	x.update_heap();
+	//Read tower values from file
+	vector<enemy> enemies;
+	int no_of_enemies;
+	for (int i = 0; i < no_of_enemies; i++) {
+		char region; ////
+		float c_1, c_2, c_3, health; ////
+		int seq, arrival_time, power, delay_period, type;
+		enemies.push_back(enemy(clock, c_1, c_2, c_3, seq, arrival_time, health, power, delay_period, type, Region));
+		if (enemies[i].wasInactive()) { //if was inactive and became active
+			enemies[i].calcPriority();
+			priority_heaps[(int)(enemies[i].getRegion()-'A')].insert_enemy(&enemies[i]); //insert the active enemy in his heap depending on his region
+		}
+	}
 
-	x.print_heap();
+	
 
-	vector<enemy*> new_enems = x.get_n_enems(5);
-	for (int i = 0; i < 5; i++)
-		cout << (*new_enems[i]).getPriority() << '\t';
+}
+
+
+int win_or_lose(vector<tower> &towers, vector<PQHeap> &priority_heaps) {
+	int towers_destroyed;
+	int regions_without_enemies;
+	for (int i = 1; i < number_of_towers; i++) {
+		if (towers[i].getHealth() <= 0)
+			towers_destroyed++;
+		if (priority_heaps[i].heap_count <= 0)
+			regions_without_enemies++;
+	}
+	if (towers_destroyed == number_of_towers)
+		return -1; //lose
+	else if (regions_without_enemies == number_of_towers)
+		return 1; //win
+	else
+		return 0; //game still playing
 }
