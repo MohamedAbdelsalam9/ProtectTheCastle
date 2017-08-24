@@ -36,7 +36,10 @@ public:
 	}
 
 	//set the tower as destroyed
-	bool is_destroyed() { if (TH <= 0) return true; }
+	bool is_destroyed() { 
+		if (TH <= 0) return true;
+		else return false;
+	}
 
 private:
 	float TH; //Tower Health
