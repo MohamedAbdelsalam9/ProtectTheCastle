@@ -5,22 +5,28 @@
 #include "tower.h"
 #include "main_functions.h"
 
-int win_or_lose(vector<tower> &towers, vector<PQHeap> &priority_heaps, int number_of_towers) {
+int win_or_lose(vector<tower> &towers, vector<enemy*> &enemies, int number_of_towers, int number_of_enemies) {
 	int towers_destroyed = 0;
-	int regions_without_enemies = 0;
-	for (int i = 0; i < number_of_towers-1; i++) {
+	int dead_enemies = 0;
+	for (int i = 0; i < number_of_towers; i++) {
 		if (towers[i].is_destroyed())
 			towers_destroyed++;
-		if (priority_heaps[i].heap_count() <= 0)
-			regions_without_enemies++;
-		//cout << priority_heaps[i].heap_count() << '\n';
 	}
-	if (towers_destroyed == number_of_towers)
+
+	for (int i = 0; i < number_of_enemies; i++) {
+		if (enemies[i]->isKilled())
+			dead_enemies++;
+	}
+
+	if (dead_enemies == number_of_towers) {
 		return -1; //lose
-	else if (regions_without_enemies == number_of_towers)
+	}
+	else if (dead_enemies == number_of_enemies){
 		return 1; //win
-	else
+	}
+	else{
 		return 0; //game still playing
+	}
 }
 
 void update_enemies_region(PQHeap &priority_heap, int number_of_towers) 

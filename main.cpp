@@ -85,7 +85,9 @@ int main()
 
 
 	//start main game loop
-	while (win_or_lose(towers, priority_heaps, number_of_towers) == 0) {
+	int number_of_enemies = enemies.size();
+	while (win_or_lose(towers, enemies, number_of_towers, number_of_enemies) == 0){
+		//cout << "hi" << endl;
 		clock++;
 
 		//insert the newly active enemies in the heaps
@@ -101,7 +103,7 @@ int main()
 
 		num = enemies.size();
 		for (int i = 0; i < num; i++) {
-			//cout << enemies[i]->getHealth() << '\n';
+			//cout << enemies[i]->isKilled() << '\n';
 		}
 
 		//check destroyed towers, if so, change tower and update distances
@@ -150,19 +152,36 @@ int main()
 	}
 
 	ofstream Outfile("Output_Sample.txt");
+	
 	if (Outfile.is_open())
 	{
 		int num = enemies.size();
 		for (int i = 0; i < num; i++) {
 			auto enemy = enemies[i];
 			Outfile << enemy->FT + enemy->getArrivalTime() << ' ' << enemy->getSequence() << ' ' << enemy->FD << ' ' << enemy->KD << ' ' << enemy->FT << '\n';
+			cout << enemy->FT + enemy->getArrivalTime() << ' ' << enemy->getSequence() << ' ' << enemy->FD << ' ' << enemy->KD << ' ' << enemy->FT << '\n';
 		}
-		Outfile << towers[1].getHealth() << ' ' << towers[2].getHealth() << ' ' << towers[3].getHealth() << ' ' << towers[4].getHealth() << '\n';
-		Outfile << unpaved_distance[1] << ' ' << unpaved_distance[2] << ' ' << unpaved_distance[3] << ' ' << unpaved_distance[4] << '\n';
+
+		num = towers.size();
+		for (int i = 0; i < num; i++) {
+			cout << towers[i].getHealth() << ' ';
+			Outfile << towers[i].getHealth() << ' ';
+		}
+		cout << endl;
+		Outfile << endl;
+
+		for (int i = 0; i < num; i++) {
+			cout << unpaved_distance[i]  << ' ';
+			Outfile << unpaved_distance[i] << ' ';
+		}
+		cout << endl;
+		Outfile << endl;
+
 		Outfile.close();
 	}
 	else cout << "Unable to open file";
 
+	//delete the enemies objects which were created by new
 	int num = enemies.size();
 	for (int i = 0; i < num; i++)
 		delete enemies[i];

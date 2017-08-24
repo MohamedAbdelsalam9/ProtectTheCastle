@@ -57,9 +57,9 @@ class enemy
 
 		void update_clock(int new_clock);
 	
-		int FD;
-		int KD;
-		int FT;
+		int FD = AT;
+		int KD = AT;
+		int FT = AT;
 
     private:
         float c1,c2,c3; // priority prarameters

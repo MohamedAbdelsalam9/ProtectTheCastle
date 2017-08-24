@@ -6,7 +6,7 @@
 #include "enemy.h"
 #include "tower.h"
 
-int win_or_lose(vector<tower> &towers, vector<PQHeap> &priority_heaps, int number_of_towers); //if it is win return 1, if it is lose, return -1, else, return 0
+int win_or_lose(vector<tower> &towers, vector<enemy*> &enemies, int number_of_towers, int number_of_enemies); //if it is win return 1, if it is lose, return -1, else, return 0
 
 //if a castle was destroyed
 void update_enemies_region(PQHeap &priority_heap, int number_of_towers);
