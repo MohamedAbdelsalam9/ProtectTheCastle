@@ -50,6 +50,10 @@ class enemy
         bool isKilled();
 
 		bool isPaver();
+
+		void set_first_shot();
+
+		void set_fight_time();
   
 
     private:

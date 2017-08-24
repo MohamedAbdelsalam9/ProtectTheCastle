@@ -178,3 +178,15 @@ bool enemy::wasInactive()
 	}
 	else return false;
 }
+
+void enemy::set_first_shot() {
+	if (!firstShot) {
+		firstShot = true;
+		FD = clock - AT;
+	}
+}
+
+void enemy::set_fight_time() {
+	FT = clock - AT;
+	KD = FT - FD;
+}

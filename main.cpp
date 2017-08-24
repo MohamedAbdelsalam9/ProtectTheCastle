@@ -90,8 +90,11 @@ int main()
 				auto &current_enemy = defensive_enemies[j];
 				float enem_damage = current_tower.enemy_damage();
 				current_enemy->setHealth(current_enemy->getHealth() - enem_damage);
-				if (current_enemy->isKilled())
+				current_enemy->set_first_shot();
+				if (current_enemy->isKilled()) {
 					current_heap.delete_enem(current_enemy);
+					current_enemy->set_fight_time();
+				}
 			}
 			
 			current_heap.update_heap();
