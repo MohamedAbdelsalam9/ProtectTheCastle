@@ -107,6 +107,7 @@ void enemy::updateVars(int c)
 {
     clock=c;
     D=D-(clock-t)*speed;
+    if(D<2) D=2;
     calcPriority();
 
 }
