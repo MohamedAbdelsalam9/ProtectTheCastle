@@ -66,5 +66,9 @@ class enemy
         int clock;
         int speed;
 		int active;
+		int FD;
+		int KD;
+		int FT;
+		bool firstShot = false;
 };
 #endif // ENEMY_H

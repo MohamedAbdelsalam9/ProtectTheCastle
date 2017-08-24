@@ -47,8 +47,11 @@ int main()
 	}
 
 	while (win_or_lose(towers, priority_heaps, number_of_towers) == 0) {
+
 		clock++;
-		for (int i = 0; i < inactive_enemies.size(); i++){ //insert the newly active enemies in the heaps
+
+		//insert the newly active enemies in the heaps
+		for (int i = 0; i < inactive_enemies.size(); i++){ 
 			if (inactive_enemies[i].wasInactive()) {
 				inactive_enemies[i].calcPriority();
 				priority_heaps[(int)(inactive_enemies[i].getRegion() - 'A')].insert_enemy(&inactive_enemies[i]);
@@ -66,6 +69,8 @@ int main()
 			}
 		}
 
+
+		//update each tower with it's enemies
 		for (int i = 0; i < number_of_towers; i++) {
 			auto &current_heap = priority_heaps[i];
 			auto &current_tower = towers[i];
@@ -81,7 +86,13 @@ int main()
 
 			int no_defensive_enemies = current_tower.getMaxNumberEnemies();
 			auto defensive_enemies = current_heap.get_n_enems(no_defensive_enemies);
-			
+			for (int j = 0; j < no_defensive_enemies; j++) {
+				auto &current_enemy = defensive_enemies[j];
+				float enem_damage = current_tower.enemy_damage();
+				current_enemy->setHealth(current_enemy->getHealth() - enem_damage);
+				if (current_enemy->isKilled())
+					current_heap.delete_enem(current_enemy);
+			}
 			
 			current_heap.update_heap();
 		}
