@@ -162,5 +162,10 @@ int main()
 		Outfile.close();
 	}
 	else cout << "Unable to open file";
+
+	int num = enemies.size();
+	for (int i = 0; i < num; i++)
+		delete enemies[i];
+
 	return 0;
 }
