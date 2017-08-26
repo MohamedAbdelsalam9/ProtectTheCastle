@@ -26,12 +26,12 @@ int main()
 
 
 	float c1, c2, c3; //parameters
-	vector<tower> towers;
+	vector<tower> towers; //initialize a vector of towers
 	towers.reserve(number_of_towers);
-	vector<PQHeap> priority_heaps;
-	priority_heaps.reserve(number_of_towers); //a heap for each tower
-	vector<enemy*> enemies;
-	vector<enemy*> inactive_enemies;
+	vector<PQHeap> priority_heaps; //initialize a vector of heaps, a heap for each tower
+	priority_heaps.reserve(number_of_towers); 
+	vector<enemy*> enemies; //initialize a vector of pointers to all enemies
+	vector<enemy*> inactive_enemies; //initialize a vector of pointers to inactive enemies
 	
 	string line;
 	ifstream infile("Input_Sample.txt");	
@@ -79,9 +79,7 @@ int main()
 				char region = line[0];
 				
 				enemy* enem = new enemy(clock + 1, c1, c2, c3, seq, arrival_time, health, power, delay_period, type, region);
-				//cout << enem->getDistance() << endl;
 				enemies.push_back(enem);
-				//auto enem = *(enemies.end() - 1);
 				if (enem->wasInactive()) { //if was inactive and became active
 					enem->calcPriority();
 					priority_heaps[(enem->getRegion() - 'A')].insert_enemy(enem); //insert the active enemy in his heap depending on his region
@@ -94,6 +92,7 @@ int main()
 		infile.close();
 	}
 
+	//GUI
 	DrawCastle(ct, 12, towers);
 	DrawEnemies(enemies);
 
@@ -113,11 +112,6 @@ int main()
 		}
 
 
-		num = enemies.size();
-		for (int i = 0; i < num; i++) {
-			//cout << enemies[i]->getHealth() << '\n';
-		}
-
 		//check destroyed towers, if so, change tower and update distances
 		for (int i = 0; i < number_of_towers; i++) {
 			if (towers[i].is_destroyed()) {
@@ -136,6 +130,7 @@ int main()
 			auto &current_tower = towers[i];
 			int no_aggressive_enemies = current_heap.heap_count();
 			auto aggressive_enemies = current_heap.get_n_enems(no_aggressive_enemies);
+			//update the towers health based on enemies attacking it, and update the enemies variables
 			for (int j = 0; j < no_aggressive_enemies; j++) {
 				auto &current_enemy = aggressive_enemies[j];
 				current_enemy->updateDist(clock, &unpaved_distance[i]);
@@ -147,6 +142,7 @@ int main()
 			int no_defensive_enemies = current_tower.getMaxNumberEnemies();
 			if (no_defensive_enemies > current_heap.heap_count()) no_defensive_enemies = current_heap.heap_count();
 			auto defensive_enemies = current_heap.get_n_enems(no_defensive_enemies);
+			//update the enemies health based on towers attacking it
 			for (int j = 0; j < no_defensive_enemies; j++) {
 				auto &current_enemy = defensive_enemies[j];
 				float enem_damage = current_tower.enemy_damage(current_enemy->getDistance(), current_enemy->getType());
@@ -159,6 +155,7 @@ int main()
 				}
 			}
 			
+			//re-sort the heap based on the newly calculated priorities
 			current_heap.update_heap();
 			DrawCastle(ct, 12, towers);
 			DrawEnemies(enemies);
